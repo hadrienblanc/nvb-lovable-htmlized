@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="assets/logo-nvb.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* ========================================
            CSS Variables - Exact copy from lovable/src/index.css
@@ -84,13 +84,18 @@
         .btn-cta,
         .navbar-brand h1,
         .footer-brand h3 {
-            font-family: 'Anton', sans-serif;
+            font-family: 'Roboto', sans-serif; font-weight: 700;
             letter-spacing: 0.02em;
         }
 
         /* ========================================
            Animations
            ======================================== */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -157,6 +162,7 @@
             font-size: 1.25rem;
             color: var(--primary-foreground);
             letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
         .navbar-brand p {
@@ -403,12 +409,25 @@
         }
 
         .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
             font-size: clamp(3rem, 10vw, 8rem);
-            color: var(--hero-title);
             margin-bottom: 1.5rem;
             line-height: 1;
-            animation: slideUp 0.6s ease-out forwards;
-            animation-delay: 0.1s;
+            background: linear-gradient(
+                90deg,
+                var(--hero-title) 0%,
+                var(--hero-title) 40%,
+                #d9f0fc 50%,
+                var(--hero-title) 60%,
+                var(--hero-title) 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideUp 0.6s ease-out forwards, shimmer 4s ease-in-out infinite;
+            animation-delay: 0.1s, 0s;
             opacity: 0;
         }
 

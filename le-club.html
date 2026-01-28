@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Club - Nice Volley Ball</title>
+    <meta name="description" content="Découvrez l'histoire, les valeurs et l'équipe du Nice Volley Ball Club">
+    <link rel="icon" type="image/png" href="assets/logo-nvb.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #032374;
-            --accent: #dcaf4d;
             --background: #f5f4f0;
-            --white: #ffffff;
-            --text-dark: #1a1a1a;
+            --foreground: #1a1f36;
+            --card: #ffffff;
+            --primary: #032374;
+            --primary-foreground: #ffffff;
+            --accent: #dcaf4d;
+            --muted-foreground: #5c6370;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Anton', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--background);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding-top: 70px;
+            color: var(--foreground);
+            min-height: 100vh;
         }
 
         /* Navbar */
@@ -36,118 +35,130 @@
             top: 0;
             left: 0;
             right: 0;
-            background: #032374;
-            padding: 0 2rem;
-            z-index: 1000;
-            height: 70px;
+            z-index: 50;
+            background: rgba(3, 35, 116, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 100%;
+            height: 80px;
         }
+
         .navbar-brand {
             display: flex;
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: white;
         }
-        .navbar-brand .logo {
-            width: 45px;
-            height: 45px;
-            background: #dcaf4d;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Anton', sans-serif;
-            font-size: 14px;
-            color: #032374;
-            font-weight: bold;
+
+        .navbar-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
         }
-        .navbar-brand span {
-            font-family: 'Anton', sans-serif;
-            font-size: 16px;
-            line-height: 1.1;
+
+        .navbar-brand h1 {
+            font-size: 1.25rem;
+            color: var(--primary-foreground);
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
-        .navbar-brand small {
-            font-size: 10px;
-            opacity: 0.8;
-            font-weight: normal;
+
+        .navbar-brand p {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: -4px;
         }
+
         .navbar-menu {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 2rem;
             list-style: none;
-            margin: 0;
-            padding: 0;
         }
-        .navbar-menu > li > a {
-            color: white;
+
+        .navbar-menu a {
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            padding: 8px 16px;
-            font-family: 'Anton', sans-serif;
-            font-size: 14px;
-            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: color 0.3s;
         }
-        .navbar-menu > li > a:hover,
-        .navbar-menu > li > a.active {
-            color: #dcaf4d;
-        }
-        .dropdown {
-            position: relative;
-        }
+
+        .navbar-menu a:hover { color: var(--accent); }
+
+        .dropdown { position: relative; }
+
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 0;
-            background: white;
-            min-width: 180px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-top: 4px;
+            background: var(--primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
+            min-width: 180px;
             padding: 8px 0;
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
-            transition: all 0.3s;
+            transition: all 0.2s;
             list-style: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
+
         .dropdown:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
+
         .dropdown-menu a {
             display: block;
-            padding: 10px 20px;
-            color: #032374;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background 0.3s;
+            padding: 8px 16px;
+            font-size: 0.875rem;
         }
+
         .dropdown-menu a:hover {
-            background: #f5f4f0;
-            color: #dcaf4d;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
         }
+
+        .btn-cta {
+            background: linear-gradient(135deg, #dcaf4d 0%, #e5c171 100%);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+        }
+
+        .btn-cta:hover { transform: scale(1.05); }
+
         .btn-billetterie {
-            background: #dcaf4d !important;
-            color: #032374 !important;
-            border-radius: 25px;
-            padding: 10px 24px !important;
-            font-weight: bold;
+            background: linear-gradient(135deg, #dcaf4d 0%, #e5c171 100%);
+            color: var(--primary) !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
         }
-        .btn-billetterie:hover {
-            background: #c99d3d !important;
-        }
+
         .navbar-toggle {
             display: none;
             flex-direction: column;
@@ -157,415 +168,96 @@
             cursor: pointer;
             padding: 5px;
         }
+
         .navbar-toggle span {
             width: 25px;
             height: 3px;
-            background: white;
+            background: var(--primary-foreground);
             border-radius: 2px;
         }
-        @media (max-width: 900px) {
-            .navbar-toggle { display: flex; }
-            .navbar-menu {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: #032374;
-                flex-direction: column;
-                padding: 20px;
-                gap: 0;
-                display: none;
-            }
-            .navbar-menu.active { display: flex; }
-            .navbar-menu > li > a { padding: 15px 20px; }
-            .dropdown-menu {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                background: rgba(255,255,255,0.1);
-                border-radius: 0;
-            }
-            .dropdown-menu a { color: white; }
-            .dropdown-menu a:hover { background: rgba(255,255,255,0.1); }
-        }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
-            padding: 6rem 2rem;
+            padding-top: 128px;
+            padding-bottom: 64px;
+            background: var(--primary);
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
 
         .hero h1 {
-            font-family: 'Anton', sans-serif;
-            font-size: 4rem;
-            color: var(--white);
-            letter-spacing: 4px;
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--primary-foreground);
         }
 
-        .hero-accent {
-            width: 100px;
-            height: 4px;
-            background-color: var(--accent);
-            margin: 0 auto;
+        .hero p {
+            margin-top: 1rem;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.125rem;
         }
 
-        /* Section Styles */
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Content */
+        .content {
+            padding: 4rem 0;
         }
 
-        .section-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent);
-            margin: 1rem auto 0;
-        }
-
-        /* Histoire Section */
-        .histoire {
-            background-color: var(--white);
-        }
-
-        .histoire-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .histoire-text p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            color: #444;
-        }
-
-        .histoire-text p:first-of-type::first-letter {
-            font-size: 3rem;
-            font-family: 'Anton', sans-serif;
-            color: var(--accent);
-            float: left;
-            line-height: 1;
-            margin-right: 0.5rem;
-        }
-
-        .histoire-image {
-            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
-            height: 400px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .histoire-image::before {
-            content: 'NVB';
-            font-family: 'Anton', sans-serif;
-            font-size: 6rem;
-            color: var(--accent);
-            opacity: 0.3;
-        }
-
-        .histoire-image-placeholder {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            color: var(--white);
-            font-size: 0.8rem;
-        }
-
-        /* Valeurs Section */
-        .valeurs {
-            background-color: var(--background);
-        }
-
-        .valeurs-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .valeur-card {
-            background-color: var(--white);
-            padding: 2.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .valeur-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .valeur-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-        }
-
-        .valeur-card h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-
-        .valeur-card p {
-            color: #666;
-            line-height: 1.7;
-        }
-
-        /* Missions Section */
-        .missions {
-            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
-            padding: 5rem 2rem;
-        }
-
-        .missions .section-title {
-            color: var(--white);
-        }
-
-        .missions-list {
+        .content .container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
 
-        .mission-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .mission-number {
-            font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
-            color: var(--accent);
-            line-height: 1;
-        }
-
-        .mission-content h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.3rem;
-            color: var(--white);
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-        }
-
-        .mission-content p {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* CTA Section */
-        .cta {
-            background-color: var(--white);
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .cta h2 {
-            font-family: 'Anton', sans-serif;
+        .content h2 {
             font-size: 2rem;
-            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .content p {
+            color: var(--muted-foreground);
+            line-height: 1.8;
             margin-bottom: 1rem;
         }
 
-        .cta p {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
+        .club-photo {
+            margin-top: 3rem;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background-color: var(--accent);
-            color: var(--primary);
-            text-decoration: none;
-            font-family: 'Anton', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(220, 175, 77, 0.4);
+        .club-photo img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
         }
 
-        .cta-button:hover {
-            background-color: var(--primary);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(3, 35, 116, 0.4);
+        .club-photo figcaption {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
         }
 
         /* Footer */
         .footer {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 4rem 2rem 2rem;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 3rem;
-        }
-
-        .footer-section h4 {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.2rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent);
-        }
-
-        .footer-section p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--primary);
+            padding: 2rem 0;
             text-align: center;
             color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
         }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .social-link:hover {
-            background-color: var(--accent);
-            color: var(--primary);
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .histoire-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .histoire-image {
-                height: 300px;
-            }
-
-            .valeurs-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .section {
-                padding: 3rem 1.5rem;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
+        @media (max-width: 1024px) {
+            .navbar-menu { display: none; }
+            .navbar-toggle { display: flex; }
+            .btn-cta { display: none; }
         }
     </style>
 </head>
@@ -574,12 +266,13 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="navbar-brand">
-                <div class="logo">NVB</div>
-                <span>NICE VOLLEY<br><small>Club Officiel</small></span>
+                <img src="assets/logo-nvb.png" alt="Nice Volley Ball">
+                <div>
+                    <h1>NICE VOLLEY</h1>
+                    <p>Club Officiel</p>
+                </div>
             </a>
-            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
-                <span></span><span></span><span></span>
-            </button>
+
             <ul class="navbar-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li class="dropdown">
@@ -599,168 +292,55 @@
                 <li><a href="cfc.html">CFC</a></li>
                 <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
             </ul>
+
+            <a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-cta">Réservez vos places</a>
+
+            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
+    <header class="hero">
+        <div class="container">
             <h1>LE CLUB</h1>
-            <div class="hero-accent"></div>
+            <p>Découvrez l'histoire, les valeurs et l'équipe du Nice Volley Ball Club</p>
+        </div>
+    </header>
+
+    <section class="content">
+        <div class="container">
+            <h2>Le Nice Volley Ball</h2>
+
+            <p>
+                Fondé avec l'ambition de porter haut les couleurs de la Côte d'Azur, le Nice Volley Ball est aujourd'hui un acteur incontournable du volley-ball français.
+            </p>
+
+            <p>
+                Évoluant au plus haut niveau national, le club s'appuie sur un projet sportif structuré, exigeant et tourné vers la performance, tout en restant fidèle à des valeurs fortes : engagement, esprit collectif, transmission et proximité avec son territoire.
+            </p>
+
+            <p>
+                Le Nice Volley Ball est également reconnu comme un club formateur, fortement engagé dans le développement des jeunes joueurs et joueuses. Avec près de 500 licenciés répartis au sein d'une vingtaine d'équipes, le club accompagne les pratiquants dès le plus jeune âge jusqu'au plus haut niveau, en plaçant la formation, la progression et l'épanouissement au cœur de son projet.
+            </p>
+
+            <p>
+                Au-delà de la compétition, le club joue un rôle actif dans la vie sportive locale en organisant des stages, des tournois et de nombreux événements conviviaux, favorisant le partage, la découverte du volley-ball et le lien entre les licenciés, les familles et les supporters.
+            </p>
+
+            <p>
+                Porté par la passion de ses bénévoles, l'implication de ses éducateurs et l'énergie de son public, le Nice Volley Ball poursuit son développement avec une ambition claire : former, performer et faire vibrer Nice autour du volley-ball, dans un esprit à la fois compétitif et familial.
+            </p>
+
+            <figure class="club-photo">
+                <img src="assets/photo-club.png" alt="Photo générale du Nice Volley Ball - Tous les licenciés du club réunis dans la salle">
+                <figcaption>© HIEP Images</figcaption>
+            </figure>
         </div>
     </section>
 
-    <!-- Histoire Section -->
-    <section class="histoire">
-        <div class="section">
-            <h2 class="section-title">Notre Histoire</h2>
-            <div class="histoire-content">
-                <div class="histoire-text">
-                    <p>Fonde en 1945 dans la ville de Nice, le Nice Volley Ball est l'un des clubs historiques du volleyball francais. Depuis sa creation, le club n'a cesse de grandir et de s'affirmer comme une reference dans le paysage sportif regional et national.</p>
-                    <p>Au fil des decennies, le NVB a su traverser les epoques en conservant ses valeurs fondatrices : l'excellence sportive, la formation des jeunes talents et l'esprit d'equipe. Le club a vu passer de nombreux joueurs talentueux qui ont contribue a forger son identite et sa reputation.</p>
-                    <p>Aujourd'hui, le Nice Volley Ball continue d'ecrire son histoire avec ambition et determination, porte par une communaute de supporters passionnes et un encadrement professionnel devoue au developpement du volleyball sur la Cote d'Azur.</p>
-                </div>
-                <div class="histoire-image">
-                    <span class="histoire-image-placeholder">Photo du club</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Valeurs Section -->
-    <section class="valeurs">
-        <div class="section">
-            <h2 class="section-title">Nos Valeurs</h2>
-            <div class="valeurs-grid">
-                <div class="valeur-card">
-                    <div class="valeur-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#dcaf4d" stroke-width="2">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </div>
-                    <h3>EXCELLENCE SPORTIVE</h3>
-                    <p>Nous visons l'excellence dans chaque entrainement et chaque competition. Notre objectif est de repousser nos limites et d'atteindre les plus hauts sommets du volleyball francais.</p>
-                </div>
-                <div class="valeur-card">
-                    <div class="valeur-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#dcaf4d" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <h3>ESPRIT D'EQUIPE</h3>
-                    <p>Le volleyball est avant tout un sport collectif. La cohesion, la solidarite et le respect mutuel sont au coeur de notre philosophie. Ensemble, nous sommes plus forts.</p>
-                </div>
-                <div class="valeur-card">
-                    <div class="valeur-icon">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#dcaf4d" stroke-width="2">
-                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-                        </svg>
-                    </div>
-                    <h3>FORMATION DES JEUNES</h3>
-                    <p>Investir dans la jeunesse, c'est preparer l'avenir. Notre centre de formation accompagne les jeunes talents dans leur developpement sportif et personnel.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Missions Section -->
-    <section class="missions">
-        <div class="section">
-            <h2 class="section-title">Nos Missions</h2>
-            <div class="missions-list">
-                <div class="mission-item">
-                    <span class="mission-number">01</span>
-                    <div class="mission-content">
-                        <h3>DEVELOPPER LE VOLLEYBALL A NICE</h3>
-                        <p>Promouvoir et democratiser la pratique du volleyball sur l'ensemble du territoire nicois, en rendant ce sport accessible a tous, quel que soit l'age ou le niveau.</p>
-                    </div>
-                </div>
-                <div class="mission-item">
-                    <span class="mission-number">02</span>
-                    <div class="mission-content">
-                        <h3>FORMER LES FUTURS CHAMPIONS</h3>
-                        <p>Detecter, accompagner et former les jeunes talents pour leur permettre d'atteindre le plus haut niveau et de representer fierement les couleurs du club.</p>
-                    </div>
-                </div>
-                <div class="mission-item">
-                    <span class="mission-number">03</span>
-                    <div class="mission-content">
-                        <h3>PROMOUVOIR LES VALEURS DU SPORT</h3>
-                        <p>Transmettre les valeurs essentielles du sport : respect, fair-play, depassement de soi et solidarite. Ces principes guident chacune de nos actions.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <h2>DECOUVREZ NOTRE ORGANISATION</h2>
-        <p>Rencontrez les hommes et les femmes qui font vivre le Nice Volley Ball au quotidien.</p>
-        <a href="organigramme.html" class="cta-button">VOIR L'ORGANIGRAMME</a>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h4>NICE VOLLEY BALL</h4>
-                <p>Club officiel de volleyball de Nice, fonde en 1945. Passion, excellence et esprit d'equipe depuis plus de 75 ans.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Facebook">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Instagram">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h4>NAVIGATION</h4>
-                <ul>
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="le-club.html">Le club</a></li>
-                    <li><a href="effectif.html">Equipe pro</a></li>
-                    <li><a href="actualites.html">Actualites</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>LE CLUB</h4>
-                <ul>
-                    <li><a href="organigramme.html">Organigramme</a></li>
-                    <li><a href="cfc.html">Centre de formation</a></li>
-                    <li><a href="#">Partenaires</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>CONTACT</h4>
-                <p>
-                    Palais des Sports Jean Bouin<br>
-                    06000 Nice, France<br><br>
-                    contact@nicevolleyball.fr<br>
-                    04 93 XX XX XX
-                </p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Nice Volley Ball. Tous droits reserves.</p>
-        </div>
+        <p>© 2025 Nice Volley Ball Club. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

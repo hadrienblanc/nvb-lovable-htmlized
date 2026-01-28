@@ -4,31 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualités - Nice Volley Ball</title>
+    <meta name="description" content="Toutes les actualités du Nice Volley Ball - Résultats, événements et news du club">
+    <link rel="icon" type="image/png" href="assets/logo-nvb.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #032374;
-            --accent: #dcaf4d;
             --background: #f5f4f0;
-            --white: #ffffff;
-            --text-dark: #1a1a1a;
-            --text-gray: #666666;
+            --foreground: #1a1f36;
+            --card: #ffffff;
+            --primary: #032374;
+            --primary-foreground: #ffffff;
+            --accent: #dcaf4d;
+            --muted-foreground: #5c6370;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Anton', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--background);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding-top: 70px;
+            color: var(--foreground);
+            min-height: 100vh;
         }
 
         /* Navbar */
@@ -37,118 +35,130 @@
             top: 0;
             left: 0;
             right: 0;
-            background: #032374;
-            padding: 0 2rem;
-            z-index: 1000;
-            height: 70px;
+            z-index: 50;
+            background: rgba(3, 35, 116, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 100%;
+            height: 80px;
         }
+
         .navbar-brand {
             display: flex;
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: white;
         }
-        .navbar-brand .logo {
-            width: 45px;
-            height: 45px;
-            background: #dcaf4d;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Anton', sans-serif;
-            font-size: 14px;
-            color: #032374;
-            font-weight: bold;
+
+        .navbar-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
         }
-        .navbar-brand span {
-            font-family: 'Anton', sans-serif;
-            font-size: 16px;
-            line-height: 1.1;
+
+        .navbar-brand h1 {
+            font-size: 1.25rem;
+            color: var(--primary-foreground);
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
-        .navbar-brand small {
-            font-size: 10px;
-            opacity: 0.8;
-            font-weight: normal;
+
+        .navbar-brand p {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: -4px;
         }
+
         .navbar-menu {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 2rem;
             list-style: none;
-            margin: 0;
-            padding: 0;
         }
-        .navbar-menu > li > a {
-            color: white;
+
+        .navbar-menu a {
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            padding: 8px 16px;
-            font-family: 'Anton', sans-serif;
-            font-size: 14px;
-            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: color 0.3s;
         }
-        .navbar-menu > li > a:hover,
-        .navbar-menu > li > a.active {
-            color: #dcaf4d;
-        }
-        .dropdown {
-            position: relative;
-        }
+
+        .navbar-menu a:hover { color: var(--accent); }
+
+        .dropdown { position: relative; }
+
         .dropdown-menu {
             position: absolute;
             top: 100%;
             left: 0;
-            background: white;
-            min-width: 180px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-top: 4px;
+            background: var(--primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
+            min-width: 180px;
             padding: 8px 0;
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
-            transition: all 0.3s;
+            transition: all 0.2s;
             list-style: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
+
         .dropdown:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
+
         .dropdown-menu a {
             display: block;
-            padding: 10px 20px;
-            color: #032374;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background 0.3s;
+            padding: 8px 16px;
+            font-size: 0.875rem;
         }
+
         .dropdown-menu a:hover {
-            background: #f5f4f0;
-            color: #dcaf4d;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
         }
+
+        .btn-cta {
+            background: linear-gradient(135deg, #dcaf4d 0%, #e5c171 100%);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+        }
+
+        .btn-cta:hover { transform: scale(1.05); }
+
         .btn-billetterie {
-            background: #dcaf4d !important;
-            color: #032374 !important;
-            border-radius: 25px;
-            padding: 10px 24px !important;
-            font-weight: bold;
+            background: linear-gradient(135deg, #dcaf4d 0%, #e5c171 100%);
+            color: var(--primary) !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
         }
-        .btn-billetterie:hover {
-            background: #c99d3d !important;
-        }
+
         .navbar-toggle {
             display: none;
             flex-direction: column;
@@ -158,291 +168,181 @@
             cursor: pointer;
             padding: 5px;
         }
+
         .navbar-toggle span {
             width: 25px;
             height: 3px;
-            background: white;
+            background: var(--primary-foreground);
             border-radius: 2px;
         }
 
-        /* Hero */
-        .hero {
-            background-color: var(--primary);
-            padding: 4rem 2rem;
-            text-align: center;
+        /* Main */
+        main {
+            padding-top: 128px;
+            padding-bottom: 96px;
         }
 
-        .hero h1 {
-            font-family: 'Anton', sans-serif;
-            font-size: 4rem;
-            color: var(--white);
-            letter-spacing: 4px;
-        }
-
-        .hero h1 span {
-            color: var(--accent);
-        }
-
-        /* Filtres */
-        .filters {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+            padding: 0 1rem;
         }
 
-        .filter-btn {
-            font-family: 'Anton', sans-serif;
-            padding: 0.75rem 2rem;
-            border: 2px solid var(--primary);
-            background-color: transparent;
-            color: var(--primary);
-            font-size: 1rem;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            transition: color 0.2s;
         }
 
-        .filter-btn:hover,
-        .filter-btn.active {
-            background-color: var(--primary);
-            color: var(--white);
+        .back-link:hover { color: var(--foreground); }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-badge {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            color: var(--muted-foreground);
+            max-width: 640px;
+            margin: 0 auto;
         }
 
         /* Articles Grid */
-        .articles-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 2rem;
         }
 
         .article-card {
-            background-color: var(--white);
-            border-radius: 8px;
+            background: var(--card);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 24px -4px rgba(3, 35, 116, 0.15);
+            transition: all 0.5s;
         }
 
         .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px -4px rgba(220, 175, 77, 0.5);
         }
 
         .article-image {
-            width: 100%;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
+            height: 208px;
+            overflow: hidden;
         }
 
-        .article-image.match {
-            background: linear-gradient(135deg, var(--primary), #0547a8);
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
         }
 
-        .article-image.club {
-            background: linear-gradient(135deg, var(--accent), #e8c77a);
+        .article-card:hover .article-image img {
+            transform: scale(1.1);
         }
 
-        .article-image.portrait {
-            background: linear-gradient(135deg, #2d4a3e, #4a7c59);
+        .article-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(3, 35, 116, 0.8), transparent);
         }
 
-        .article-image-icon {
-            font-size: 4rem;
-            color: rgba(255, 255, 255, 0.3);
+        .article-category {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            z-index: 1;
         }
 
         .article-content {
             padding: 1.5rem;
         }
 
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .article-category {
-            font-family: 'Anton', sans-serif;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            letter-spacing: 1px;
-        }
-
-        .article-category.match {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-
-        .article-category.club {
-            background-color: var(--accent);
-            color: var(--primary);
-        }
-
-        .article-category.portrait {
-            background-color: #2d4a3e;
-            color: var(--white);
-        }
-
         .article-date {
-            font-size: 0.85rem;
-            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            margin-bottom: 12px;
         }
 
-        .article-title {
-            font-family: 'Anton', sans-serif;
+        .article-content h3 {
             font-size: 1.25rem;
-            color: var(--primary);
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.5px;
-            line-height: 1.3;
+            font-weight: 700;
+            margin-bottom: 12px;
+            transition: color 0.3s;
         }
 
-        .article-excerpt {
-            font-size: 0.9rem;
-            color: var(--text-gray);
+        .article-card:hover .article-content h3 {
+            color: var(--accent);
+        }
+
+        .article-content p {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            line-height: 1.6;
             margin-bottom: 1rem;
-            line-height: 1.5;
         }
 
         .article-link {
-            font-family: 'Anton', sans-serif;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s ease;
+            gap: 8px;
+            color: var(--accent);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: gap 0.3s;
         }
 
-        .article-link:hover {
-            color: var(--primary);
-        }
-
-        .article-link::after {
-            content: '\2192';
-            transition: transform 0.3s ease;
-        }
-
-        .article-link:hover::after {
-            transform: translateX(5px);
-        }
+        .article-link:hover { gap: 12px; }
 
         /* Footer */
         .footer {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 3rem 2rem 1.5rem;
-            margin-top: 4rem;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .footer-section h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
-            letter-spacing: 1px;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 2rem auto 0;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--primary);
+            padding: 2rem 0;
             text-align: center;
-            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .articles-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
+            .navbar-menu { display: none; }
             .navbar-toggle { display: flex; }
-            .navbar-menu {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: #032374;
-                flex-direction: column;
-                padding: 20px;
-                gap: 0;
-                display: none;
-            }
-            .navbar-menu.active { display: flex; }
-            .navbar-menu > li > a { padding: 15px 20px; }
-            .dropdown-menu {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                background: rgba(255,255,255,0.1);
-                border-radius: 0;
-            }
-            .dropdown-menu a { color: white; }
-            .dropdown-menu a:hover { background: rgba(255,255,255,0.1); }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
+            .btn-cta { display: none; }
         }
     </style>
 </head>
@@ -451,12 +351,13 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="navbar-brand">
-                <div class="logo">NVB</div>
-                <span>NICE VOLLEY<br><small>Club Officiel</small></span>
+                <img src="assets/logo-nvb.png" alt="Nice Volley Ball">
+                <div>
+                    <h1>NICE VOLLEY</h1>
+                    <p>Club Officiel</p>
+                </div>
             </a>
-            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
-                <span></span><span></span><span></span>
-            </button>
+
             <ul class="navbar-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li class="dropdown">
@@ -476,175 +377,93 @@
                 <li><a href="cfc.html">CFC</a></li>
                 <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
             </ul>
+
+            <a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-cta">Réservez vos places</a>
+
+            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <h1>ACTUALIT<span>E</span>S</h1>
-    </section>
+    <main>
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Retour à l'accueil
+            </a>
 
-    <!-- Filtres -->
-    <div class="filters">
-        <button class="filter-btn active" data-filter="tous">TOUS</button>
-        <button class="filter-btn" data-filter="match">MATCH</button>
-        <button class="filter-btn" data-filter="club">CLUB</button>
-        <button class="filter-btn" data-filter="portrait">PORTRAIT</button>
-    </div>
+            <div class="page-header">
+                <span class="page-badge">Actualités</span>
+                <h1 class="page-title">Toutes les Actualités</h1>
+                <p class="page-description">
+                    Restez informé de toute l'actualité du club, des résultats de matchs aux événements exclusifs.
+                </p>
+            </div>
 
-    <!-- Articles Grid -->
-    <section class="articles-section">
-        <div class="articles-grid" id="articlesGrid">
-            <!-- Article 1 -->
-            <article class="article-card" data-category="match">
-                <div class="article-image match">
-                    <span class="article-image-icon">&#9917;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category match">MATCH</span>
-                        <span class="article-date">25 Jan 2025</span>
+            <div class="articles-grid">
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="images/match-narbonne-new.jpg" alt="Match">
+                        <span class="article-category">Match</span>
                     </div>
-                    <h2 class="article-title">Victoire eclatante contre Montpellier</h2>
-                    <p class="article-excerpt">Le Nice Volley Ball s'impose 3-1 face a Montpellier dans un match spectaculaire...</p>
-                    <a href="article.html?id=1" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
-
-            <!-- Article 2 -->
-            <article class="article-card" data-category="club">
-                <div class="article-image club">
-                    <span class="article-image-icon">&#128085;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category club">CLUB</span>
-                        <span class="article-date">20 Jan 2025</span>
+                    <div class="article-content">
+                        <div class="article-date">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>25 janvier 2025</span>
+                        </div>
+                        <h3>Victoire éclatante contre Montpellier</h3>
+                        <p>Le Nice Volley Ball s'impose 3-1 face à Montpellier dans un match spectaculaire devant un public en feu.</p>
+                        <a href="article.html" class="article-link">
+                            Lire la suite
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
                     </div>
-                    <h2 class="article-title">Le nouveau maillot 2025-26 devoile</h2>
-                    <p class="article-excerpt">Decouvrez le nouveau maillot de la saison avec un design audacieux...</p>
-                    <a href="article.html?id=2" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
+                </article>
 
-            <!-- Article 3 -->
-            <article class="article-card" data-category="portrait">
-                <div class="article-image portrait">
-                    <span class="article-image-icon">&#128100;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category portrait">PORTRAIT</span>
-                        <span class="article-date">15 Jan 2025</span>
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="assets/team-huddle.jpg" alt="Équipe">
+                        <span class="article-category">Club</span>
                     </div>
-                    <h2 class="article-title">Interview exclusive: Dawid Dulski</h2>
-                    <p class="article-excerpt">Notre pointu polonais se confie sur ses ambitions pour la saison...</p>
-                    <a href="article.html?id=3" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
+                    <div class="article-content">
+                        <div class="article-date">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>20 janvier 2025</span>
+                        </div>
+                        <h3>Le nouveau maillot 2025-26 dévoilé</h3>
+                        <p>Découvrez le nouveau maillot de la saison avec un design audacieux aux couleurs emblématiques du club.</p>
+                        <a href="article.html" class="article-link">
+                            Lire la suite
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                </article>
 
-            <!-- Article 4 -->
-            <article class="article-card" data-category="match">
-                <div class="article-image match">
-                    <span class="article-image-icon">&#127942;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category match">MATCH</span>
-                        <span class="article-date">10 Jan 2025</span>
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="images/titouan-halle.jpg" alt="Titouan Hallé">
+                        <span class="article-category">Portrait</span>
                     </div>
-                    <h2 class="article-title">Preparation intense avant les playoffs</h2>
-                    <p class="article-excerpt">L'equipe multiplie les seances pour arriver au top de sa forme...</p>
-                    <a href="article.html?id=4" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
-
-            <!-- Article 5 -->
-            <article class="article-card" data-category="club">
-                <div class="article-image club">
-                    <span class="article-image-icon">&#127891;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category club">CLUB</span>
-                        <span class="article-date">5 Jan 2025</span>
+                    <div class="article-content">
+                        <div class="article-date">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>15 janvier 2025</span>
+                        </div>
+                        <h3>Interview exclusive : Titouan Hallé</h3>
+                        <p>Notre réceptionneur-attaquant se confie sur ses ambitions pour la saison et son parcours au club.</p>
+                        <a href="article.html" class="article-link">
+                            Lire la suite
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
                     </div>
-                    <h2 class="article-title">Le centre de formation accueille 20 nouveaux talents</h2>
-                    <p class="article-excerpt">Une nouvelle generation prometteuse rejoint notre academie...</p>
-                    <a href="article.html?id=5" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
-
-            <!-- Article 6 -->
-            <article class="article-card" data-category="club">
-                <div class="article-image club">
-                    <span class="article-image-icon">&#127881;</span>
-                </div>
-                <div class="article-content">
-                    <div class="article-meta">
-                        <span class="article-category club">CLUB</span>
-                        <span class="article-date">1 Jan 2025</span>
-                    </div>
-                    <h2 class="article-title">Retrospective 2024: une annee de succes</h2>
-                    <p class="article-excerpt">Retour sur les moments forts qui ont marque notre club...</p>
-                    <a href="article.html?id=6" class="article-link">LIRE LA SUITE</a>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>NICE VOLLEY BALL</h3>
-                <p>Club de volleyball professionnel base a Nice, evoluant en Ligue A. Rejoignez-nous pour vivre des moments intenses de sport et de passion.</p>
-            </div>
-            <div class="footer-section">
-                <h3>LIENS RAPIDES</h3>
-                <a href="index.html">Accueil</a>
-                <a href="le-club.html">Le Club</a>
-                <a href="effectif.html">Effectif</a>
-                <a href="actualites.html">Actualites</a>
-                <a href="cfc.html">CFC</a>
-            </div>
-            <div class="footer-section">
-                <h3>CONTACT</h3>
-                <p>3 chemin Saint Philippe, 06000 Nice</p>
-                <p>Tel: 04 93 87 12 77</p>
-                <p>Email: info@nicevolleyball.fr</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Nice Volley Ball. Tous droits reserves.</p>
-        </div>
+        <p>© 2025 Nice Volley Ball Club. Tous droits réservés.</p>
     </footer>
-
-    <script>
-        // Filter functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const articles = document.querySelectorAll('.article-card');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-
-                    const filter = this.dataset.filter;
-
-                    articles.forEach(article => {
-                        if (filter === 'tous' || article.dataset.category === filter) {
-                            article.style.display = 'block';
-                        } else {
-                            article.style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
