@@ -451,13 +451,12 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="navbar-brand">
-                <img src="assets/logo-nvb.png" alt="Nice Volley Ball">
-                <div>
-                    <h1>NICE VOLLEY</h1>
-                    <p>Club Officiel</p>
-                </div>
+                <div class="logo">NVB</div>
+                <span>NICE VOLLEY<br><small>Club Officiel</small></span>
             </a>
-
+            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
             <ul class="navbar-menu">
                 <li><a href="index.html">Accueil</a></li>
                 <li class="dropdown">
@@ -477,12 +476,6 @@
                 <li><a href="cfc.html">CFC</a></li>
                 <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
             </ul>
-
-            <a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-cta">Réservez vos places</a>
-
-            <button class="navbar-toggle" aria-label="Menu de navigation" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
-                <span></span><span></span><span></span>
-            </button>
         </div>
     </nav>
 
