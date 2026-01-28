@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 10 - Volley Pro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: radial-gradient(ellipse at 30% 50%, #0a3a9d 0%, #032374 40%, #021654 100%);
+            overflow: hidden;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+        }
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        container.appendChild(renderer.domElement);
+
+        // Pro volleyball - 18 panel design
+        const canvas = document.createElement('canvas');
+        canvas.width = 2048;
+        canvas.height = 1024;
+        const ctx = canvas.getContext('2d');
+
+        // White leather base
+        const gradient = ctx.createRadialGradient(1024, 512, 0, 1024, 512, 1024);
+        gradient.addColorStop(0, '#ffffff');
+        gradient.addColorStop(1, '#f0ede5');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 2048, 1024);
+
+        // Add micro texture
+        for (let i = 0; i < 8000; i++) {
+            const x = Math.random() * 2048;
+            const y = Math.random() * 1024;
+            ctx.fillStyle = `rgba(180, 175, 165, ${Math.random() * 0.1})`;
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random() * 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Panel seams - volleyball has 18 panels in 6 sections
+        ctx.strokeStyle = '#032374';
+        ctx.lineWidth = 24;
+        ctx.lineCap = 'round';
+
+        // 3 main longitude lines
+        for (let i = 0; i < 3; i++) {
+            const offset = (i * 2048) / 3;
+            ctx.beginPath();
+            ctx.moveTo(offset, 0);
+            ctx.bezierCurveTo(offset - 100, 341, offset + 100, 683, offset, 1024);
+            ctx.stroke();
+        }
+
+        // Latitude curves
+        ctx.beginPath();
+        ctx.moveTo(0, 340);
+        ctx.bezierCurveTo(512, 280, 1536, 400, 2048, 340);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, 684);
+        ctx.bezierCurveTo(512, 744, 1536, 624, 2048, 684);
+        ctx.stroke();
+
+        // Gold accent on some panels
+        ctx.fillStyle = 'rgba(220, 175, 77, 0.15)';
+        ctx.beginPath();
+        ctx.ellipse(512, 512, 200, 150, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(1536, 512, 200, 150, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Stitching details
+        ctx.strokeStyle = '#2a2a4a';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([12, 8]);
+
+        for (let i = 0; i < 3; i++) {
+            const offset = (i * 2048) / 3;
+            ctx.beginPath();
+            ctx.moveTo(offset + 12, 0);
+            ctx.bezierCurveTo(offset - 88, 341, offset + 112, 683, offset + 12, 1024);
+            ctx.stroke();
+        }
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+
+        // Normal map for depth
+        const normalCanvas = document.createElement('canvas');
+        normalCanvas.width = 512;
+        normalCanvas.height = 512;
+        const nCtx = normalCanvas.getContext('2d');
+        nCtx.fillStyle = '#8080ff';
+        nCtx.fillRect(0, 0, 512, 512);
+
+        // Add seam bumps
+        nCtx.strokeStyle = '#6060ff';
+        nCtx.lineWidth = 15;
+        nCtx.beginPath();
+        nCtx.moveTo(0, 256);
+        nCtx.lineTo(512, 256);
+        nCtx.stroke();
+        nCtx.beginPath();
+        nCtx.moveTo(256, 0);
+        nCtx.lineTo(256, 512);
+        nCtx.stroke();
+
+        const normalTexture = new THREE.CanvasTexture(normalCanvas);
+
+        const geometry = new THREE.SphereGeometry(2.5, 128, 64);
+        const material = new THREE.MeshPhysicalMaterial({
+            map: texture,
+            normalMap: normalTexture,
+            normalScale: new THREE.Vector2(0.3, 0.3),
+            roughness: 0.6,
+            metalness: 0,
+            clearcoat: 0.2,
+            clearcoatRoughness: 0.3
+        });
+
+        const volleyball = new THREE.Mesh(geometry, material);
+        volleyball.position.set(3, 0, 0);
+        scene.add(volleyball);
+
+        // Studio lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        keyLight.position.set(5, 5, 5);
+        scene.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0xdcaf4d, 0.4);
+        fillLight.position.set(-5, 2, 3);
+        scene.add(fillLight);
+
+        const backLight = new THREE.DirectionalLight(0x4a90d9, 0.3);
+        backLight.position.set(0, -3, -5);
+        scene.add(backLight);
+
+        const rimLight = new THREE.SpotLight(0xffffff, 0.5);
+        rimLight.position.set(-3, 5, -2);
+        scene.add(rimLight);
+
+        camera.position.z = 7;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+
+            volleyball.rotation.y += 0.006;
+            volleyball.rotation.x = Math.sin(time * 0.4) * 0.15;
+            volleyball.position.y = Math.sin(time * 0.7) * 0.25;
+            volleyball.position.x = 3 + Math.sin(time * 0.3) * 0.15;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

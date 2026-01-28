@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 11 - Logo NVB 3D</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: #032374;
+            overflow: hidden;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            padding-top: 60vh;
+        }
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #b8e0f7;
+        }
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley Ball</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const group = new THREE.Group();
+
+        // Create "N" letter outline
+        function createN() {
+            const points = [];
+            // Left vertical
+            points.push(new THREE.Vector3(-1.5, -1.5, 0));
+            points.push(new THREE.Vector3(-1.5, 1.5, 0));
+            // Diagonal
+            points.push(new THREE.Vector3(-0.5, 1.5, 0));
+            points.push(new THREE.Vector3(0.5, -1.5, 0));
+            // Right vertical
+            points.push(new THREE.Vector3(0.5, -1.5, 0));
+            points.push(new THREE.Vector3(0.5, 1.5, 0));
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: 0xb8e0f7, linewidth: 2 });
+            return new THREE.Line(geometry, material);
+        }
+
+        // Create "V" letter outline
+        function createV() {
+            const points = [];
+            points.push(new THREE.Vector3(-1, 1.5, 0));
+            points.push(new THREE.Vector3(0, -1.5, 0));
+            points.push(new THREE.Vector3(1, 1.5, 0));
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: 0xdcaf4d, linewidth: 2 });
+            return new THREE.Line(geometry, material);
+        }
+
+        // Create "B" letter outline
+        function createB() {
+            const curve1 = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(-0.5, 0, 0),
+                new THREE.Vector3(1, 0.5, 0),
+                new THREE.Vector3(-0.5, 1, 0)
+            );
+            const curve2 = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(-0.5, 0, 0),
+                new THREE.Vector3(1.2, -0.5, 0),
+                new THREE.Vector3(-0.5, -1.5, 0)
+            );
+
+            const points1 = curve1.getPoints(20);
+            const points2 = curve2.getPoints(20);
+
+            const allPoints = [
+                new THREE.Vector3(-0.5, 1.5, 0),
+                new THREE.Vector3(-0.5, -1.5, 0),
+                ...points2.reverse(),
+                ...points1
+            ];
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(allPoints);
+            const material = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
+            return new THREE.Line(geometry, material);
+        }
+
+        // Create circular shield outline
+        function createShield() {
+            const curve = new THREE.EllipseCurve(0, 0, 4, 4, 0, Math.PI * 2, false, 0);
+            const points = curve.getPoints(64).map(p => new THREE.Vector3(p.x, p.y, 0));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({
+                color: 0xdcaf4d,
+                transparent: true,
+                opacity: 0.6
+            });
+            return new THREE.LineLoop(geometry, material);
+        }
+
+        // Inner circle
+        function createInnerCircle() {
+            const curve = new THREE.EllipseCurve(0, 0, 3.5, 3.5, 0, Math.PI * 2, false, 0);
+            const points = curve.getPoints(64).map(p => new THREE.Vector3(p.x, p.y, 0));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({
+                color: 0xb8e0f7,
+                transparent: true,
+                opacity: 0.4
+            });
+            return new THREE.LineLoop(geometry, material);
+        }
+
+        // Position letters
+        const letterN = createN();
+        letterN.position.x = -2.5;
+        group.add(letterN);
+
+        const letterV = createV();
+        letterV.position.x = 0;
+        group.add(letterV);
+
+        const letterB = createB();
+        letterB.position.x = 2.5;
+        group.add(letterB);
+
+        const shield = createShield();
+        group.add(shield);
+
+        const innerCircle = createInnerCircle();
+        group.add(innerCircle);
+
+        // Add volleyball-like curves
+        const volleyCurve1 = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(-4, 0, 0),
+            new THREE.Vector3(0, 2, 0),
+            new THREE.Vector3(4, 0, 0)
+        );
+        const vc1Points = volleyCurve1.getPoints(30);
+        const vc1Geo = new THREE.BufferGeometry().setFromPoints(vc1Points);
+        const vc1Line = new THREE.Line(vc1Geo, new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.2
+        }));
+        vc1Line.position.y = -0.5;
+        group.add(vc1Line);
+
+        group.position.y = 1;
+        scene.add(group);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        camera.position.z = 12;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+
+            group.rotation.y = Math.sin(time * 0.5) * 0.3;
+            group.position.y = 1 + Math.sin(time * 0.8) * 0.2;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 15 - Mikasa Réaliste</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(135deg, #032374 0%, #0a3a9d 50%, #032374 100%);
+            overflow: hidden;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #b8e0f7;
+        }
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Create Mikasa V200W texture
+        const canvas = document.createElement('canvas');
+        canvas.width = 2048;
+        canvas.height = 1024;
+        const ctx = canvas.getContext('2d');
+
+        // Yellow base
+        ctx.fillStyle = '#ffd700';
+        ctx.fillRect(0, 0, 2048, 1024);
+
+        // Add subtle texture dots (dimples)
+        for (let i = 0; i < 3000; i++) {
+            const x = Math.random() * 2048;
+            const y = Math.random() * 1024;
+            ctx.fillStyle = `rgba(200, 170, 0, ${Math.random() * 0.3})`;
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Blue panels - Mikasa swirl pattern
+        ctx.fillStyle = '#1e3a8a';
+
+        // Panel 1 - curved from top-left swooping down
+        ctx.beginPath();
+        ctx.moveTo(0, 200);
+        ctx.bezierCurveTo(300, 100, 500, 400, 700, 512);
+        ctx.bezierCurveTo(500, 650, 300, 800, 0, 700);
+        ctx.closePath();
+        ctx.fill();
+
+        // Panel 2 - center swirl
+        ctx.beginPath();
+        ctx.moveTo(600, 0);
+        ctx.bezierCurveTo(750, 200, 900, 350, 1024, 512);
+        ctx.bezierCurveTo(1150, 350, 1300, 200, 1450, 0);
+        ctx.lineTo(600, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        // Panel 3 - bottom center
+        ctx.beginPath();
+        ctx.moveTo(600, 1024);
+        ctx.bezierCurveTo(750, 824, 900, 674, 1024, 512);
+        ctx.bezierCurveTo(1150, 674, 1300, 824, 1450, 1024);
+        ctx.lineTo(600, 1024);
+        ctx.closePath();
+        ctx.fill();
+
+        // Panel 4 - right side swirl
+        ctx.beginPath();
+        ctx.moveTo(2048, 200);
+        ctx.bezierCurveTo(1748, 100, 1548, 400, 1348, 512);
+        ctx.bezierCurveTo(1548, 650, 1748, 800, 2048, 700);
+        ctx.closePath();
+        ctx.fill();
+
+        // Add blue panel texture
+        ctx.fillStyle = 'rgba(30, 58, 138, 0.3)';
+        for (let i = 0; i < 1500; i++) {
+            const x = Math.random() * 2048;
+            const y = Math.random() * 1024;
+            ctx.beginPath();
+            ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Panel seam lines
+        ctx.strokeStyle = '#0f2557';
+        ctx.lineWidth = 8;
+        ctx.lineCap = 'round';
+
+        // Swirl seams
+        ctx.beginPath();
+        ctx.moveTo(0, 200);
+        ctx.bezierCurveTo(300, 100, 500, 400, 700, 512);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, 700);
+        ctx.bezierCurveTo(300, 800, 500, 650, 700, 512);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(2048, 200);
+        ctx.bezierCurveTo(1748, 100, 1548, 400, 1348, 512);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(2048, 700);
+        ctx.bezierCurveTo(1748, 800, 1548, 650, 1348, 512);
+        ctx.stroke();
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.wrapS = THREE.RepeatWrapping;
+
+        const geometry = new THREE.SphereGeometry(2.5, 64, 64);
+        const material = new THREE.MeshPhysicalMaterial({
+            map: texture,
+            roughness: 0.6,
+            metalness: 0,
+            clearcoat: 0.2,
+            clearcoatRoughness: 0.3
+        });
+
+        const volleyball = new THREE.Mesh(geometry, material);
+        volleyball.position.set(3.5, 0, 0);
+        scene.add(volleyball);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+        mainLight.position.set(5, 5, 5);
+        scene.add(mainLight);
+
+        const fillLight = new THREE.DirectionalLight(0xffd700, 0.3);
+        fillLight.position.set(-5, 0, 3);
+        scene.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0x4a90d9, 0.3);
+        rimLight.position.set(0, -3, -5);
+        scene.add(rimLight);
+
+        camera.position.z = 8;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+
+            volleyball.rotation.y += 0.008;
+            volleyball.rotation.x = Math.sin(time * 0.5) * 0.1;
+            volleyball.position.y = Math.sin(time * 0.8) * 0.2;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

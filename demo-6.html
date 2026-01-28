@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 6 - Volley Flat Design</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: #032374;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+        }
+
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Create flat shaded volleyball
+        const geometry = new THREE.IcosahedronGeometry(2.5, 1);
+
+        // Flat material - no lighting effects
+        const material = new THREE.MeshBasicMaterial({
+            color: 0xf5f5f0,
+            flatShading: true
+        });
+
+        const volleyball = new THREE.Mesh(geometry, material);
+        volleyball.position.set(3.5, 0, 0);
+        scene.add(volleyball);
+
+        // Add flat colored panels
+        const panelGeometry = new THREE.IcosahedronGeometry(2.52, 1);
+        const panelMaterial = new THREE.MeshBasicMaterial({
+            color: 0x032374,
+            wireframe: true,
+            wireframeLinewidth: 3
+        });
+        const panels = new THREE.Mesh(panelGeometry, panelMaterial);
+        panels.position.copy(volleyball.position);
+        scene.add(panels);
+
+        // Add accent color ring
+        const ringGeometry = new THREE.TorusGeometry(2.6, 0.08, 8, 32);
+        const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xdcaf4d });
+        const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+        ring.position.copy(volleyball.position);
+        scene.add(ring);
+
+        camera.position.z = 8;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+
+            volleyball.rotation.y += 0.008;
+            volleyball.rotation.x = Math.sin(time * 0.5) * 0.1;
+
+            panels.rotation.copy(volleyball.rotation);
+            ring.rotation.copy(volleyball.rotation);
+            ring.rotation.x += Math.PI / 2;
+
+            // Floating animation
+            volleyball.position.y = Math.sin(time) * 0.3;
+            panels.position.y = volleyball.position.y;
+            ring.position.y = volleyball.position.y;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

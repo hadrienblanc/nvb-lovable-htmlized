@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 12 - Logo Shield 3D</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(135deg, #021654 0%, #032374 100%);
+            overflow: hidden;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            padding-top: 55vh;
+        }
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+        }
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley Ball</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const group = new THREE.Group();
+
+        // Create shield/crest shape
+        function createShieldOutline(radius, height, color, opacity) {
+            const points = [];
+            const segments = 64;
+
+            // Top half circle
+            for (let i = 0; i <= segments / 2; i++) {
+                const angle = Math.PI + (i / (segments / 2)) * Math.PI;
+                points.push(new THREE.Vector3(
+                    Math.cos(angle) * radius,
+                    Math.sin(angle) * radius + height * 0.3,
+                    0
+                ));
+            }
+
+            // Bottom point (shield tip)
+            points.push(new THREE.Vector3(0, -height, 0));
+
+            // Close the shape
+            points.push(points[0].clone());
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({
+                color: color,
+                transparent: true,
+                opacity: opacity
+            });
+            return new THREE.Line(geometry, material);
+        }
+
+        // Outer shield
+        const outerShield = createShieldOutline(3, 4, 0xdcaf4d, 0.8);
+        group.add(outerShield);
+
+        // Inner shield
+        const innerShield = createShieldOutline(2.6, 3.5, 0xb8e0f7, 0.5);
+        group.add(innerShield);
+
+        // Volleyball inside shield
+        const ballOutline = new THREE.EllipseCurve(0, 0, 1.8, 1.8, 0, Math.PI * 2, false, 0);
+        const ballPoints = ballOutline.getPoints(48).map(p => new THREE.Vector3(p.x, p.y, 0));
+        const ballGeo = new THREE.BufferGeometry().setFromPoints(ballPoints);
+        const ballLine = new THREE.LineLoop(ballGeo, new THREE.LineBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.7
+        }));
+        ballLine.position.y = 0.5;
+        group.add(ballLine);
+
+        // Volleyball seams
+        const seamMaterial = new THREE.LineBasicMaterial({
+            color: 0xdcaf4d,
+            transparent: true,
+            opacity: 0.5
+        });
+
+        // Horizontal seam
+        const hSeam = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(-1.8, 0.5, 0),
+            new THREE.Vector3(0, 1.2, 0),
+            new THREE.Vector3(1.8, 0.5, 0)
+        );
+        const hSeamPoints = hSeam.getPoints(20);
+        const hSeamGeo = new THREE.BufferGeometry().setFromPoints(hSeamPoints);
+        group.add(new THREE.Line(hSeamGeo, seamMaterial));
+
+        // Vertical seam
+        const vSeam = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(0, 2.3, 0),
+            new THREE.Vector3(0.6, 0.5, 0),
+            new THREE.Vector3(0, -1.3, 0)
+        );
+        const vSeamPoints = vSeam.getPoints(20);
+        const vSeamGeo = new THREE.BufferGeometry().setFromPoints(vSeamPoints);
+        group.add(new THREE.Line(vSeamGeo, seamMaterial));
+
+        // Text "NVB" represented as simple lines
+        const textGroup = new THREE.Group();
+
+        // N
+        const nPoints = [
+            new THREE.Vector3(-1.2, -2.5, 0),
+            new THREE.Vector3(-1.2, -1.8, 0),
+            new THREE.Vector3(-0.8, -2.5, 0),
+            new THREE.Vector3(-0.8, -1.8, 0)
+        ];
+        const nGeo = new THREE.BufferGeometry().setFromPoints(nPoints);
+        textGroup.add(new THREE.LineSegments(nGeo, new THREE.LineBasicMaterial({ color: 0xffffff })));
+
+        // V
+        const vPoints = [
+            new THREE.Vector3(-0.3, -1.8, 0),
+            new THREE.Vector3(0, -2.5, 0),
+            new THREE.Vector3(0, -2.5, 0),
+            new THREE.Vector3(0.3, -1.8, 0)
+        ];
+        const vGeo = new THREE.BufferGeometry().setFromPoints(vPoints);
+        textGroup.add(new THREE.LineSegments(vGeo, new THREE.LineBasicMaterial({ color: 0xdcaf4d })));
+
+        // B
+        const bPoints = [
+            new THREE.Vector3(0.8, -2.5, 0),
+            new THREE.Vector3(0.8, -1.8, 0)
+        ];
+        const bGeo = new THREE.BufferGeometry().setFromPoints(bPoints);
+        textGroup.add(new THREE.LineSegments(bGeo, new THREE.LineBasicMaterial({ color: 0xffffff })));
+
+        const bCurve1 = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(0.8, -1.8, 0),
+            new THREE.Vector3(1.3, -2, 0),
+            new THREE.Vector3(0.8, -2.15, 0)
+        );
+        const bCurve2 = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(0.8, -2.15, 0),
+            new THREE.Vector3(1.4, -2.35, 0),
+            new THREE.Vector3(0.8, -2.5, 0)
+        );
+        const bc1Geo = new THREE.BufferGeometry().setFromPoints(bCurve1.getPoints(10));
+        const bc2Geo = new THREE.BufferGeometry().setFromPoints(bCurve2.getPoints(10));
+        textGroup.add(new THREE.Line(bc1Geo, new THREE.LineBasicMaterial({ color: 0xffffff })));
+        textGroup.add(new THREE.Line(bc2Geo, new THREE.LineBasicMaterial({ color: 0xffffff })));
+
+        group.add(textGroup);
+
+        group.position.y = 1.5;
+        scene.add(group);
+
+        camera.position.z = 10;
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+
+            group.rotation.y = mouseX * 0.5;
+            group.rotation.x = mouseY * 0.2;
+            group.position.y = 1.5 + Math.sin(time * 0.8) * 0.15;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

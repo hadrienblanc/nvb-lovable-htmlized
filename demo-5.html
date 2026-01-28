@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo 5 - Volley Contours Animés</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: #021654;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+        }
+
+        .hero-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Nice Volley</h1>
+            <p class="hero-subtitle">Saison 2024-2025</p>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Create multiple outline rings to suggest a volleyball
+        const group = new THREE.Group();
+
+        // Main sphere outline using EdgesGeometry
+        const sphereGeo = new THREE.SphereGeometry(2.5, 32, 32);
+        const edges = new THREE.EdgesGeometry(sphereGeo, 15);
+        const lineMaterial = new THREE.LineBasicMaterial({
+            color: 0xb8e0f7,
+            transparent: true,
+            opacity: 0.5
+        });
+        const wireframe = new THREE.LineSegments(edges, lineMaterial);
+        group.add(wireframe);
+
+        // Volleyball panel curves using TorusGeometry for rings
+        const ringMaterial = new THREE.LineBasicMaterial({
+            color: 0xdcaf4d,
+            transparent: true,
+            opacity: 0.7
+        });
+
+        // Horizontal ring
+        const ring1Geo = new THREE.TorusGeometry(2.5, 0.02, 2, 64);
+        const ring1Edges = new THREE.EdgesGeometry(ring1Geo);
+        const ring1 = new THREE.LineSegments(ring1Edges, ringMaterial);
+        group.add(ring1);
+
+        // Vertical ring
+        const ring2 = new THREE.LineSegments(ring1Edges.clone(), ringMaterial);
+        ring2.rotation.x = Math.PI / 2;
+        group.add(ring2);
+
+        // Diagonal ring
+        const ring3 = new THREE.LineSegments(ring1Edges.clone(), ringMaterial);
+        ring3.rotation.z = Math.PI / 4;
+        ring3.rotation.x = Math.PI / 4;
+        group.add(ring3);
+
+        group.position.set(4, 0, 0);
+        scene.add(group);
+
+        camera.position.z = 8;
+
+        // Mouse interaction
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+
+            // Gentle rotation
+            group.rotation.y += 0.005;
+            group.rotation.x = Math.sin(time * 0.5) * 0.2 + mouseY * 0.3;
+
+            // Floating
+            group.position.y = Math.sin(time * 0.8) * 0.3;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
