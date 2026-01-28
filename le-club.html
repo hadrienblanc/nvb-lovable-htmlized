@@ -26,7 +26,6 @@
             font-family: 'Roboto', sans-serif;
             background-color: var(--background);
             color: var(--foreground);
-            min-height: 100vh;
         }
 
         /* Navbar */
@@ -176,73 +175,248 @@
             border-radius: 2px;
         }
 
-        /* Hero */
-        .hero {
-            padding-top: 128px;
-            padding-bottom: 64px;
-            background: var(--primary);
-            text-align: center;
+        /* Sections PPT style */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
+            position: relative;
         }
 
-        .hero .container {
+        .slide .container {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+            width: 100%;
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
+        /* Hero Slide */
+        .slide-hero {
+            background: linear-gradient(135deg, #032374 0%, #0a3a9d 50%, #021654 100%);
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .slide-hero h1 {
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 900;
             color: var(--primary-foreground);
-        }
-
-        .hero p {
-            margin-top: 1rem;
-            max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.125rem;
-        }
-
-        /* Content */
-        .content {
-            padding: 4rem 0;
-        }
-
-        .content .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .content h2 {
-            font-size: 2rem;
-            font-weight: 700;
+            letter-spacing: 0.05em;
+            line-height: 1;
             margin-bottom: 1.5rem;
         }
 
-        .content p {
+        .slide-hero .tagline {
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 2rem;
+        }
+
+        .slide-hero .subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Stats Slide */
+        .slide-stats {
+            background: var(--background);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: clamp(4rem, 10vw, 7rem);
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number span {
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 1.25rem;
             color: var(--muted-foreground);
-            line-height: 1.8;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* Values Slide */
+        .slide-values {
+            background: var(--primary);
+        }
+
+        .slide-values h2 {
+            text-align: center;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--primary-foreground);
+            margin-bottom: 4rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .value-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .value-icon svg {
+            width: 32px;
+            height: 32px;
+            color: var(--primary);
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-foreground);
             margin-bottom: 1rem;
         }
 
-        .club-photo {
-            margin-top: 3rem;
+        .value-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
         }
 
-        .club-photo img {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        /* Mission Slide */
+        .slide-mission {
+            background: var(--background);
         }
 
-        .club-photo figcaption {
-            text-align: center;
-            margin-top: 8px;
-            font-size: 0.875rem;
+        .mission-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .mission-text h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .mission-text p {
+            font-size: 1.25rem;
             color: var(--muted-foreground);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-text .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .mission-image {
+            position: relative;
+        }
+
+        .mission-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(3, 35, 116, 0.2);
+        }
+
+        .mission-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Quote Slide */
+        .slide-quote {
+            background: linear-gradient(135deg, #021654 0%, #032374 100%);
+            text-align: center;
+        }
+
+        .quote-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quote-mark {
+            font-size: 8rem;
+            color: var(--accent);
+            line-height: 0.5;
+            opacity: 0.5;
+        }
+
+        .quote-text {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--primary-foreground);
+            font-weight: 500;
+            line-height: 1.5;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        .quote-author {
+            color: var(--accent);
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         /* Footer */
@@ -254,10 +428,123 @@
             font-size: 0.875rem;
         }
 
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.8rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
         @media (max-width: 1024px) {
             .navbar-menu { display: none; }
             .navbar-toggle { display: flex; }
             .btn-cta { display: none; }
+        }
+
+        /* Navigation dots */
+        .slide-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .slide-nav a {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .slide-nav a:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        .slide-nav a.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Slide arrow */
+        .slide-arrow {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            animation: bounce 2s infinite;
+        }
+
+        .slide-arrow:hover {
+            color: var(--accent);
+        }
+
+        .slide-arrow span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .slide-stats .slide-arrow,
+        .slide-mission .slide-arrow {
+            color: var(--primary);
+        }
+
+        .slide-stats .slide-arrow:hover,
+        .slide-mission .slide-arrow:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .mission-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mission-image {
+                order: -1;
+            }
+
+            .slide {
+                padding: 4rem 1rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-nav {
+                right: 1rem;
+            }
+
+            .slide-nav a {
+                width: 10px;
+                height: 10px;
+            }
         }
     </style>
 </head>
@@ -301,46 +588,199 @@
         </div>
     </nav>
 
-    <header class="hero">
+    <!-- Navigation dots -->
+    <nav class="slide-nav">
+        <a href="#hero" title="Accueil"></a>
+        <a href="#stats" title="Chiffres"></a>
+        <a href="#values" title="Valeurs"></a>
+        <a href="#mission" title="Mission"></a>
+        <a href="#quote" title="Ambition"></a>
+    </nav>
+
+    <!-- Slide 1: Hero -->
+    <section id="hero" class="slide slide-hero">
         <div class="container">
-            <h1>LE CLUB</h1>
-            <p>Découvrez l'histoire, les valeurs et l'équipe du Nice Volley Ball Club</p>
+            <h1>NICE<br>VOLLEY<br>BALL</h1>
+            <p class="tagline">Acteur incontournable du volley français</p>
+            <p class="subtitle">Porter haut les couleurs de la Côte d'Azur avec passion, ambition et esprit collectif</p>
         </div>
-    </header>
+        <a href="#stats" class="slide-arrow">
+            <span>Découvrir</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </a>
+    </section>
 
-    <section class="content">
+    <!-- Slide 2: Stats -->
+    <section id="stats" class="slide slide-stats">
         <div class="container">
-            <h2>Le Nice Volley Ball</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">500<span>+</span></div>
+                    <div class="stat-label">Licenciés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Équipes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1<span>er</span></div>
+                    <div class="stat-label">Division</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100<span>%</span></div>
+                    <div class="stat-label">Passion</div>
+                </div>
+            </div>
+        </div>
+        <a href="#values" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </a>
+    </section>
 
-            <p>
-                Fondé avec l'ambition de porter haut les couleurs de la Côte d'Azur, le Nice Volley Ball est aujourd'hui un acteur incontournable du volley-ball français.
-            </p>
+    <!-- Slide 3: Values -->
+    <section id="values" class="slide slide-values">
+        <div class="container">
+            <h2>Nos Valeurs</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Engagement</h3>
+                    <p>Se donner à 100% sur et en dehors du terrain, pour le club et pour ses coéquipiers</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Esprit Collectif</h3>
+                    <p>Avancer ensemble, partager les victoires comme les défis, se soutenir mutuellement</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <h3>Transmission</h3>
+                    <p>Former les jeunes générations, transmettre notre passion et notre savoir-faire</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Proximité</h3>
+                    <p>Ancré dans notre territoire, proche de nos supporters et de la communauté niçoise</p>
+                </div>
+            </div>
+        </div>
+        <a href="#mission" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </a>
+    </section>
 
-            <p>
-                Évoluant au plus haut niveau national, le club s'appuie sur un projet sportif structuré, exigeant et tourné vers la performance, tout en restant fidèle à des valeurs fortes : engagement, esprit collectif, transmission et proximité avec son territoire.
-            </p>
+    <!-- Slide 4: Mission -->
+    <section id="mission" class="slide slide-mission">
+        <div class="container">
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h2>Former, Performer, Faire Vibrer</h2>
+                    <p>
+                        Le Nice Volley Ball est reconnu comme un <span class="highlight">club formateur</span>, fortement engagé dans le développement des jeunes joueurs et joueuses.
+                    </p>
+                    <p>
+                        Au-delà de la compétition, nous organisons des stages, des tournois et des événements conviviaux pour faire vivre le volley-ball à Nice.
+                    </p>
+                    <p>
+                        Porté par la passion de ses bénévoles et l'énergie de son public, le club poursuit son développement dans un esprit <span class="highlight">compétitif et familial</span>.
+                    </p>
+                </div>
+                <div class="mission-image">
+                    <img src="assets/photo-club.png" alt="Photo générale du Nice Volley Ball">
+                </div>
+            </div>
+        </div>
+        <a href="#quote" class="slide-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </a>
+    </section>
 
-            <p>
-                Le Nice Volley Ball est également reconnu comme un club formateur, fortement engagé dans le développement des jeunes joueurs et joueuses. Avec près de 500 licenciés répartis au sein d'une vingtaine d'équipes, le club accompagne les pratiquants dès le plus jeune âge jusqu'au plus haut niveau, en plaçant la formation, la progression et l'épanouissement au cœur de son projet.
-            </p>
-
-            <p>
-                Au-delà de la compétition, le club joue un rôle actif dans la vie sportive locale en organisant des stages, des tournois et de nombreux événements conviviaux, favorisant le partage, la découverte du volley-ball et le lien entre les licenciés, les familles et les supporters.
-            </p>
-
-            <p>
-                Porté par la passion de ses bénévoles, l'implication de ses éducateurs et l'énergie de son public, le Nice Volley Ball poursuit son développement avec une ambition claire : former, performer et faire vibrer Nice autour du volley-ball, dans un esprit à la fois compétitif et familial.
-            </p>
-
-            <figure class="club-photo">
-                <img src="assets/photo-club.png" alt="Photo générale du Nice Volley Ball - Tous les licenciés du club réunis dans la salle">
-                <figcaption>© HIEP Images</figcaption>
-            </figure>
+    <!-- Slide 5: Quote -->
+    <section id="quote" class="slide slide-quote">
+        <div class="container">
+            <div class="quote-content">
+                <div class="quote-mark">"</div>
+                <p class="quote-text">
+                    Faire vibrer Nice autour du volley-ball, accompagner chaque licencié dans sa progression, de ses premiers pas jusqu'au plus haut niveau.
+                </p>
+                <p class="quote-author">Notre ambition</p>
+            </div>
         </div>
     </section>
 
     <footer class="footer">
+        <div class="footer-links">
+            <a href="mentions-legales.html">Mentions légales</a>
+            <a href="politique-confidentialite.html">Confidentialité</a>
+            <a href="cgv.html">CGV</a>
+        </div>
         <p>© 2025 Nice Volley Ball Club. Tous droits réservés.</p>
     </footer>
+
+    <script>
+        // Update active dot on scroll
+        const sections = document.querySelectorAll('.slide');
+        const navLinks = document.querySelectorAll('.slide-nav a');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
