@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organigramme - Nice Volley Ball</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032374;
+            --accent: #dcaf4d;
+            --background: #f5f4f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Anton', sans-serif;
+            background-color: var(--background);
+            color: var(--primary);
+            padding-top: 70px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #032374;
+            padding: 0 2rem;
+            z-index: 1000;
+            height: 70px;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar-brand .logo {
+            width: 45px;
+            height: 45px;
+            background: #dcaf4d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            color: #032374;
+            font-weight: bold;
+        }
+        .navbar-brand span {
+            font-family: 'Anton', sans-serif;
+            font-size: 16px;
+            line-height: 1.1;
+        }
+        .navbar-brand small {
+            font-size: 10px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s;
+        }
+        .navbar-menu > li > a:hover,
+        .navbar-menu > li > a.active {
+            color: #dcaf4d;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            list-style: none;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #032374;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .dropdown-menu a:hover {
+            background: #f5f4f0;
+            color: #dcaf4d;
+        }
+        .btn-billetterie {
+            background: #dcaf4d !important;
+            color: #032374 !important;
+            border-radius: 25px;
+            padding: 10px 24px !important;
+            font-weight: bold;
+        }
+        .btn-billetterie:hover {
+            background: #c99d3d !important;
+        }
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .navbar-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+        @media (max-width: 900px) {
+            .navbar-toggle { display: flex; }
+            .navbar-menu {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #032374;
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                display: none;
+            }
+            .navbar-menu.active { display: flex; }
+            .navbar-menu > li > a { padding: 15px 20px; }
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: rgba(255,255,255,0.1);
+                border-radius: 0;
+            }
+            .dropdown-menu a { color: white; }
+            .dropdown-menu a:hover { background: rgba(255,255,255,0.1); }
+        }
+
+        /* Hero */
+        .hero {
+            background-color: var(--primary);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: var(--white);
+            font-size: 3.5rem;
+            letter-spacing: 8px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-line {
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 1.5rem auto 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            margin: 0.75rem auto 0;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card */
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(3, 35, 116, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(3, 35, 116, 0.15);
+        }
+
+        .card-initials {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        .card-initials.accent {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        .card-name {
+            font-size: 1.1rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-role {
+            font-size: 0.9rem;
+            color: #666;
+            font-family: 'Anton', sans-serif;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-family: 'Anton', sans-serif;
+            font-weight: normal;
+            font-size: 0.9rem;
+            color: var(--white);
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo">NVB</div>
+            <span>NICE VOLLEY<br><small>Club Officiel</small></span>
+        </a>
+        <button class="navbar-toggle" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </button>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li class="dropdown">
+                    <a href="le-club.html">Le club <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="le-club.html">Présentation</a></li>
+                        <li><a href="organigramme.html">Organigramme</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="effectif.html">Équipe pro <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="effectif.html">Effectif</a></li>
+                    </ul>
+                </li>
+                <li><a href="actualites.html">Actualités</a></li>
+                <li><a href="cfc.html">CFC</a></li>
+                <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
+            </ul>
+    </div>
+</nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>ORGANI<span>GRAMME</span></h1>
+        <div class="hero-line"></div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Direction -->
+        <section class="section">
+            <h2 class="section-title">DIRECTION</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">JPM</div>
+                    <div class="card-info">
+                        <div class="card-name">Jean-Pierre MARTIN</div>
+                        <div class="card-role">Président</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">MD</div>
+                    <div class="card-info">
+                        <div class="card-name">Marie DUPONT</div>
+                        <div class="card-role">Secrétaire Générale</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">PB</div>
+                    <div class="card-info">
+                        <div class="card-name">Philippe BERNARD</div>
+                        <div class="card-role">Vice-Président</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">SL</div>
+                    <div class="card-info">
+                        <div class="card-name">Sophie LEROY</div>
+                        <div class="card-role">Trésorière</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bureau -->
+        <section class="section">
+            <h2 class="section-title">BUREAU</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials">MP</div>
+                    <div class="card-info">
+                        <div class="card-name">Marc PETIT</div>
+                        <div class="card-role">Membre du Bureau</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials accent">CM</div>
+                    <div class="card-info">
+                        <div class="card-name">Claire MOREAU</div>
+                        <div class="card-role">Membre du Bureau</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">AR</div>
+                    <div class="card-info">
+                        <div class="card-name">Antoine RICHARD</div>
+                        <div class="card-role">Membre du Bureau</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Équipe Administrative -->
+        <section class="section">
+            <h2 class="section-title">EQUIPE ADMINISTRATIVE</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">LT</div>
+                    <div class="card-info">
+                        <div class="card-name">Lucas THOMAS</div>
+                        <div class="card-role">Manager Général</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">ER</div>
+                    <div class="card-info">
+                        <div class="card-name">Emma ROBERT</div>
+                        <div class="card-role">Responsable Administratif</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">HS</div>
+                    <div class="card-info">
+                        <div class="card-name">Hugo SIMON</div>
+                        <div class="card-role">Responsable Sportif</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">LM</div>
+                    <div class="card-info">
+                        <div class="card-name">Léa MICHEL</div>
+                        <div class="card-role">Responsable Communication</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secteur Pro -->
+        <section class="section">
+            <h2 class="section-title">SECTEUR PRO</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">DG</div>
+                    <div class="card-info">
+                        <div class="card-name">David GARCIA</div>
+                        <div class="card-role">Entraîneur Principal</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">NM</div>
+                    <div class="card-info">
+                        <div class="card-name">Nicolas MARTINEZ</div>
+                        <div class="card-role">Entraîneur Adjoint</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">TL</div>
+                    <div class="card-info">
+                        <div class="card-name">Thomas LOPEZ</div>
+                        <div class="card-role">Préparateur Physique</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">JG</div>
+                    <div class="card-info">
+                        <div class="card-name">Julien GONZALEZ</div>
+                        <div class="card-role">Préparateur Physique</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Centre de Formation -->
+        <section class="section">
+            <h2 class="section-title">CENTRE DE FORMATION</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">PD</div>
+                    <div class="card-info">
+                        <div class="card-name">Pierre DUBOIS</div>
+                        <div class="card-role">Directeur du Centre</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">CB</div>
+                    <div class="card-info">
+                        <div class="card-name">Camille BONNET</div>
+                        <div class="card-role">Responsable Pédagogique</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">AF</div>
+                    <div class="card-info">
+                        <div class="card-name">Alexandre FONTAINE</div>
+                        <div class="card-role">Entraîneur Formation</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">JR</div>
+                    <div class="card-info">
+                        <div class="card-name">Julie ROUSSEAU</div>
+                        <div class="card-role">Coordinatrice</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Commission Technique -->
+        <section class="section">
+            <h2 class="section-title">COMMISSION TECHNIQUE</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials">FV</div>
+                    <div class="card-info">
+                        <div class="card-name">François VINCENT</div>
+                        <div class="card-role">Président Commission</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials accent">MN</div>
+                    <div class="card-info">
+                        <div class="card-name">Mathieu NICOLAS</div>
+                        <div class="card-role">Responsable Technique</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">SG</div>
+                    <div class="card-info">
+                        <div class="card-name">Sylvie GIRARD</div>
+                        <div class="card-role">Membre Commission</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">RL</div>
+                    <div class="card-info">
+                        <div class="card-name">Romain LAURENT</div>
+                        <div class="card-role">Membre Commission</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Entraîneurs -->
+        <section class="section">
+            <h2 class="section-title">ENTRAINEURS</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">JB</div>
+                    <div class="card-info">
+                        <div class="card-name">Jacques BLANC</div>
+                        <div class="card-role">Entraîneur Seniors</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">NC</div>
+                    <div class="card-info">
+                        <div class="card-name">Nathalie CHEVALIER</div>
+                        <div class="card-role">Entraîneur U20</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">YM</div>
+                    <div class="card-info">
+                        <div class="card-name">Yann MERCIER</div>
+                        <div class="card-role">Entraîneur U17</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">CD</div>
+                    <div class="card-info">
+                        <div class="card-name">Caroline DUVAL</div>
+                        <div class="card-role">Entraîneur U15</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">PL</div>
+                    <div class="card-info">
+                        <div class="card-name">Patrick LAMBERT</div>
+                        <div class="card-role">Entraîneur U13</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials accent">LF</div>
+                    <div class="card-info">
+                        <div class="card-name">Laure FABRE</div>
+                        <div class="card-role">Entraîneur Ecole de Volley</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personnel Médical -->
+        <section class="section">
+            <h2 class="section-title">PERSONNEL MEDICAL</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-initials accent">DR</div>
+                    <div class="card-info">
+                        <div class="card-name">Dr. Anne ROUX</div>
+                        <div class="card-role">Médecin du Club</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">BH</div>
+                    <div class="card-info">
+                        <div class="card-name">Baptiste HENRY</div>
+                        <div class="card-role">Kinésithérapeute</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-initials">VM</div>
+                    <div class="card-info">
+                        <div class="card-name">Valérie MOREL</div>
+                        <div class="card-role">Ostéopathe</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>NICE VOLLEY BALL</h3>
+                <p>Club de volleyball professionnel base a Nice.<br>
+                Membre de la Ligue A Masculine.</p>
+            </div>
+            <div class="footer-section">
+                <h3>LIENS</h3>
+                <p>
+                    <a href="index.html">Accueil</a><br>
+                    <a href="le-club.html">Le Club</a><br>
+                    <a href="effectif.html">Effectif</a><br>
+                    <a href="actualites.html">Actualites</a><br>
+                    <a href="cfc.html">CFC</a>
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT</h3>
+                <p>3 chemin Saint Philippe<br>
+                06000 Nice<br>
+                04 93 87 12 77<br>
+                info@nicevolleyball.fr</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Nice Volley Ball. Tous droits reserves.</p>
+        </div>
+    </footer>
+</body>
+</html>

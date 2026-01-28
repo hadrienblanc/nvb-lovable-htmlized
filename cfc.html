@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre de Formation - NVB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032374;
+            --accent: #dcaf4d;
+            --background: #f5f4f0;
+            --white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+        }
+
+        body {
+            font-family: 'Anton', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #032374;
+            padding: 0 2rem;
+            z-index: 1000;
+            height: 70px;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar-brand .logo {
+            width: 45px;
+            height: 45px;
+            background: #dcaf4d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            color: #032374;
+            font-weight: bold;
+        }
+        .navbar-brand span {
+            font-family: 'Anton', sans-serif;
+            font-size: 16px;
+            line-height: 1.1;
+        }
+        .navbar-brand small {
+            font-size: 10px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s;
+        }
+        .navbar-menu > li > a:hover,
+        .navbar-menu > li > a.active {
+            color: #dcaf4d;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            list-style: none;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #032374;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .dropdown-menu a:hover {
+            background: #f5f4f0;
+            color: #dcaf4d;
+        }
+        .btn-billetterie {
+            background: #dcaf4d !important;
+            color: #032374 !important;
+            border-radius: 25px;
+            padding: 10px 24px !important;
+            font-weight: bold;
+        }
+        .btn-billetterie:hover {
+            background: #c99d3d !important;
+        }
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .navbar-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+        @media (max-width: 900px) {
+            .navbar-toggle { display: flex; }
+            .navbar-menu {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #032374;
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                display: none;
+            }
+            .navbar-menu.active { display: flex; }
+            .navbar-menu > li > a { padding: 15px 20px; }
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: rgba(255,255,255,0.1);
+                border-radius: 0;
+            }
+            .dropdown-menu a { color: white; }
+            .dropdown-menu a:hover { background: rgba(255,255,255,0.1); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 4rem;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Section Common */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+
+        .gold-line {
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 0 auto 2rem;
+        }
+
+        /* Presentation Section */
+        .presentation {
+            background-color: var(--white);
+        }
+
+        .presentation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .presentation-image {
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary) 0%, #041a52 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presentation-image span {
+            color: var(--white);
+            opacity: 0.3;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .presentation-content h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .presentation-content p {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Anton', sans-serif;
+            font-size: 3rem;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Programs Section */
+        .programs {
+            background-color: var(--background);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .program-card {
+            background-color: var(--white);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(3, 35, 116, 0.15);
+        }
+
+        .program-header {
+            background-color: var(--primary);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .program-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent);
+        }
+
+        .program-age {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .program-name {
+            color: var(--white);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .program-content {
+            padding: 2rem;
+        }
+
+        .program-content h3 {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .program-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .program-features {
+            list-style: none;
+        }
+
+        .program-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .program-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+        }
+
+        /* Infrastructure Section */
+        .infrastructure {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .infrastructure .section-title {
+            color: var(--white);
+        }
+
+        .infrastructure .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .infrastructure .gold-line {
+            background-color: var(--accent);
+        }
+
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .infra-item {
+            text-align: center;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .infra-item:hover {
+            border-color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .infra-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .infra-item h4 {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .infra-item p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--white);
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem;
+            background-color: var(--background);
+        }
+
+        .cta-box h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .footer-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .programs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .infra-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .presentation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .infra-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="logo">NVB</div>
+                <span>NICE VOLLEY<br><small>Club Officiel</small></span>
+            </a>
+            <button class="navbar-toggle" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li class="dropdown">
+                    <a href="le-club.html">Le club <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="le-club.html">Présentation</a></li>
+                        <li><a href="organigramme.html">Organigramme</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="effectif.html">Équipe pro <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="effectif.html">Effectif</a></li>
+                    </ul>
+                </li>
+                <li><a href="actualites.html">Actualités</a></li>
+                <li><a href="cfc.html">CFC</a></li>
+                <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Centre de Formation</h1>
+            <p class="hero-subtitle">Former les champions de demain</p>
+        </div>
+    </section>
+
+    <!-- Presentation Section -->
+    <section class="section presentation">
+        <div class="section-container">
+            <div class="presentation-grid">
+                <div class="presentation-image">
+                    <span>IMAGE PLACEHOLDER</span>
+                </div>
+                <div class="presentation-content">
+                    <h2>Excellence et Formation</h2>
+                    <p>Le Centre de Formation du Nancy Volley Ball est reconnu comme l'un des meilleurs de France. Notre mission : accompagner les jeunes talents vers le plus haut niveau tout en garantissant leur réussite scolaire et leur épanouissement personnel.</p>
+                    <p>Depuis sa création, le CFC a formé de nombreux joueurs professionnels qui évoluent aujourd'hui dans les plus grands championnats européens. Notre approche combine exigence sportive, suivi individualisé et formation humaine.</p>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-number">25</div>
+                            <div class="stat-label">Ans d'existence</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">48</div>
+                            <div class="stat-label">Joueurs formés</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">Internationaux</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="section programs">
+        <div class="section-container">
+            <div class="gold-line"></div>
+            <h2 class="section-title">Nos Programmes</h2>
+            <p class="section-subtitle">Trois catégories pour accompagner chaque étape du développement de nos jeunes volleyeurs</p>
+
+            <div class="programs-grid">
+                <!-- U15 -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <div class="program-age">U15</div>
+                        <div class="program-name">Moins de 15 ans</div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Initiation Elite</h3>
+                        <p>Programme dédié à l'apprentissage des fondamentaux et au développement des qualités athlétiques.</p>
+                        <ul class="program-features">
+                            <li>6 entraînements par semaine</li>
+                            <li>Suivi scolaire personnalisé</li>
+                            <li>Préparation physique adaptée</li>
+                            <li>Tournois régionaux</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- U17 -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <div class="program-age">U17</div>
+                        <div class="program-name">Moins de 17 ans</div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Perfectionnement</h3>
+                        <p>Renforcement technique et introduction aux exigences du haut niveau.</p>
+                        <ul class="program-features">
+                            <li>8 entraînements par semaine</li>
+                            <li>Internat disponible</li>
+                            <li>Préparation mentale</li>
+                            <li>Championnats nationaux</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- U20 -->
+                <div class="program-card">
+                    <div class="program-header">
+                        <div class="program-age">U20</div>
+                        <div class="program-name">Moins de 20 ans</div>
+                    </div>
+                    <div class="program-content">
+                        <h3>Pré-professionnel</h3>
+                        <p>Dernière étape avant l'intégration au groupe professionnel.</p>
+                        <ul class="program-features">
+                            <li>10 entraînements par semaine</li>
+                            <li>Entraînements avec les pros</li>
+                            <li>Suivi vidéo personnalisé</li>
+                            <li>Compétitions européennes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infrastructure Section -->
+    <section class="section infrastructure">
+        <div class="section-container">
+            <div class="gold-line"></div>
+            <h2 class="section-title">Nos Infrastructures</h2>
+            <p class="section-subtitle">Des équipements de pointe au service de la performance</p>
+
+            <div class="infra-grid">
+                <div class="infra-item">
+                    <div class="infra-icon">3</div>
+                    <h4>Terrains</h4>
+                    <p>Gymnases homologués compétition</p>
+                </div>
+                <div class="infra-item">
+                    <div class="infra-icon">1</div>
+                    <h4>Salle Musculation</h4>
+                    <p>Équipements dernière génération</p>
+                </div>
+                <div class="infra-item">
+                    <div class="infra-icon">2</div>
+                    <h4>Salles Vidéo</h4>
+                    <p>Analyse tactique et technique</p>
+                </div>
+                <div class="infra-item">
+                    <div class="infra-icon">40</div>
+                    <h4>Chambres</h4>
+                    <p>Internat sur site</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="section-container">
+            <div class="cta-box">
+                <h2>Rejoignez le Centre de Formation</h2>
+                <p>Vous avez le talent et la motivation ? Contactez-nous pour connaître les modalités de recrutement et les dates de détection.</p>
+                <a href="contact.html" class="btn-primary">Nous contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <div class="footer-logo">NVB</div>
+                <p class="footer-description">
+                    Nice Volley Ball - Club officiel de volleyball.
+                </p>
+            </div>
+            <div>
+                <h4 class="footer-title">Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="le-club.html">Le Club</a></li>
+                    <li><a href="effectif.html">Effectif</a></li>
+                    <li><a href="actualites.html">Actualites</a></li>
+                    <li><a href="cfc.html">CFC</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Contact</h4>
+                <ul class="footer-links">
+                    <li>3 chemin Saint Philippe</li>
+                    <li>06000 Nice</li>
+                    <li>04 93 87 12 77</li>
+                    <li>info@nicevolleyball.fr</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Nice Volley Ball. Tous droits reserves.</p>
+        </div>
+    </footer>
+</body>
+</html>

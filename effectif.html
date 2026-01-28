@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effectif 2025-26 | Nice Volley Ball</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Anton', sans-serif;
+            background-color: #f5f4f0;
+            color: #032374;
+            padding-top: 70px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #032374;
+            padding: 0 2rem;
+            z-index: 1000;
+            height: 70px;
+        }
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar-brand .logo {
+            width: 45px;
+            height: 45px;
+            background: #dcaf4d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            color: #032374;
+            font-weight: bold;
+        }
+        .navbar-brand span {
+            font-family: 'Anton', sans-serif;
+            font-size: 16px;
+            line-height: 1.1;
+        }
+        .navbar-brand small {
+            font-size: 10px;
+            opacity: 0.8;
+            font-weight: normal;
+        }
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-family: 'Anton', sans-serif;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s;
+        }
+        .navbar-menu > li > a:hover,
+        .navbar-menu > li > a.active {
+            color: #dcaf4d;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            list-style: none;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #032374;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .dropdown-menu a:hover {
+            background: #f5f4f0;
+            color: #dcaf4d;
+        }
+        .btn-billetterie {
+            background: #dcaf4d !important;
+            color: #032374 !important;
+            border-radius: 25px;
+            padding: 10px 24px !important;
+            font-weight: bold;
+        }
+        .btn-billetterie:hover {
+            background: #c99d3d !important;
+        }
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .navbar-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        /* Hero */
+        .hero {
+            background-color: #032374;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: #dcaf4d;
+            font-size: 4rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Section Joueurs */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #032374;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .player-card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(3, 35, 116, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(3, 35, 116, 0.2);
+        }
+
+        .player-photo {
+            background-color: #032374;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .player-initials {
+            font-size: 5rem;
+            color: #dcaf4d;
+            opacity: 0.8;
+        }
+
+        .player-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #dcaf4d;
+            color: #032374;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .player-info {
+            padding: 1.5rem;
+        }
+
+        .player-name {
+            font-size: 1.5rem;
+            color: #032374;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .player-position {
+            color: #dcaf4d;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .player-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .player-details span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .flag {
+            font-size: 1.2rem;
+        }
+
+        /* Section Staff */
+        .staff-section {
+            background-color: #032374;
+            padding: 4rem 2rem;
+        }
+
+        .staff-section .section-title {
+            color: #dcaf4d;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .staff-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .staff-card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .staff-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: #dcaf4d;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .staff-initials {
+            font-size: 2rem;
+            color: #032374;
+        }
+
+        .staff-name {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .staff-role {
+            color: #dcaf4d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Anton', sans-serif;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #021a52;
+            color: #fff;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            background: #dcaf4d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 18px;
+            color: #032374;
+            font-weight: bold;
+        }
+
+        .footer-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .footer-links h4,
+        .footer-contact h4 {
+            color: #dcaf4d;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, color 0.3s ease;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .footer-nav a:hover {
+            opacity: 1;
+            color: #dcaf4d;
+        }
+
+        .footer-contact p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            font-family: 'Anton', sans-serif;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            font-family: 'Anton', sans-serif;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .navbar-toggle { display: flex; }
+            .navbar-menu {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #032374;
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                display: none;
+            }
+            .navbar-menu.active { display: flex; }
+            .navbar-menu > li > a { padding: 15px 20px; }
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: rgba(255,255,255,0.1);
+                border-radius: 0;
+            }
+            .dropdown-menu a { color: white; }
+            .dropdown-menu a:hover { background: rgba(255,255,255,0.1); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .player-photo {
+                height: 180px;
+            }
+
+            .player-initials {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="logo">NVB</div>
+                <span>NICE VOLLEY<br><small>Club Officiel</small></span>
+            </a>
+            <button class="navbar-toggle" onclick="document.querySelector('.navbar-menu').classList.toggle('active')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li class="dropdown">
+                    <a href="le-club.html">Le club <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="le-club.html">Présentation</a></li>
+                        <li><a href="organigramme.html">Organigramme</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="effectif.html">Équipe pro <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="effectif.html">Effectif</a></li>
+                    </ul>
+                </li>
+                <li><a href="actualites.html">Actualités</a></li>
+                <li><a href="cfc.html">CFC</a></li>
+                <li><a href="https://www.weezevent.com/widget_multi.php?72847.1.1.bo" target="_blank" class="btn-billetterie">Billetterie</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Effectif 2025-26</h1>
+    </section>
+
+    <!-- Section Joueurs -->
+    <section class="section">
+        <h2 class="section-title">Joueurs</h2>
+        <div class="players-grid">
+            <!-- Dawid DULSKI -->
+            <article class="player-card">
+                <div class="player-photo">
+                    <span class="player-initials">DD</span>
+                    <span class="player-number">#7</span>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name">Dawid DULSKI</h3>
+                    <p class="player-position">Pointu</p>
+                    <div class="player-details">
+                        <span><span class="flag">🇵🇱</span> Pologne</span>
+                        <span>210 cm</span>
+                        <span>2004</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Titouan HALLE -->
+            <article class="player-card">
+                <div class="player-photo">
+                    <span class="player-initials">TH</span>
+                    <span class="player-number">#3</span>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name">Titouan HALLE</h3>
+                    <p class="player-position">Receptionneur-Attaquant</p>
+                    <div class="player-details">
+                        <span><span class="flag">🇫🇷</span> France</span>
+                        <span>196 cm</span>
+                        <span>1998</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Mason BRIGGS -->
+            <article class="player-card">
+                <div class="player-photo">
+                    <span class="player-initials">MB</span>
+                    <span class="player-number">#12</span>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name">Mason BRIGGS</h3>
+                    <p class="player-position">Libero</p>
+                    <div class="player-details">
+                        <span><span class="flag">🇺🇸</span> USA</span>
+                        <span>183 cm</span>
+                        <span>2001</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Sacha KICIAK -->
+            <article class="player-card">
+                <div class="player-photo">
+                    <span class="player-initials">SK</span>
+                    <span class="player-number">#8</span>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name">Sacha KICIAK</h3>
+                    <p class="player-position">Central</p>
+                    <div class="player-details">
+                        <span><span class="flag">🇫🇷</span> France</span>
+                        <span>203 cm</span>
+                        <span>2005</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Nathan CUDEVILLE -->
+            <article class="player-card">
+                <div class="player-photo">
+                    <span class="player-initials">NC</span>
+                    <span class="player-number">#1</span>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name">Nathan CUDEVILLE</h3>
+                    <p class="player-position">Libero</p>
+                    <div class="player-details">
+                        <span><span class="flag">🇫🇷</span> France</span>
+                        <span>192 cm</span>
+                        <span>2006</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Section Staff Technique -->
+    <section class="staff-section">
+        <h2 class="section-title">Staff Technique</h2>
+        <div class="staff-grid">
+            <!-- David GARCIA -->
+            <article class="staff-card">
+                <div class="staff-avatar">
+                    <span class="staff-initials">DG</span>
+                </div>
+                <h3 class="staff-name">David GARCIA</h3>
+                <p class="staff-role">Entraineur Principal</p>
+            </article>
+
+            <!-- Nicolas MARTINEZ -->
+            <article class="staff-card">
+                <div class="staff-avatar">
+                    <span class="staff-initials">NM</span>
+                </div>
+                <h3 class="staff-name">Nicolas MARTINEZ</h3>
+                <p class="staff-role">Entraineur Adjoint</p>
+            </article>
+
+            <!-- Thomas LOPEZ -->
+            <article class="staff-card">
+                <div class="staff-avatar">
+                    <span class="staff-initials">TL</span>
+                </div>
+                <h3 class="staff-name">Thomas LOPEZ</h3>
+                <p class="staff-role">Preparateur Physique</p>
+            </article>
+
+            <!-- Dr. Paul DUBOIS -->
+            <article class="staff-card">
+                <div class="staff-avatar">
+                    <span class="staff-initials">PD</span>
+                </div>
+                <h3 class="staff-name">Dr. Paul DUBOIS</h3>
+                <p class="staff-role">Medecin</p>
+            </article>
+
+            <!-- Sarah ROUX -->
+            <article class="staff-card">
+                <div class="staff-avatar">
+                    <span class="staff-initials">SR</span>
+                </div>
+                <h3 class="staff-name">Sarah ROUX</h3>
+                <p class="staff-role">Kinesitherapeute</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">NVB</div>
+                <p class="footer-description">Nice Volley Ball - Club officiel de volleyball a Nice. Rejoignez-nous pour vivre la passion du volley !</p>
+            </div>
+            <div class="footer-links">
+                <h4>Liens</h4>
+                <nav class="footer-nav">
+                    <a href="index.html">Accueil</a>
+                    <a href="le-club.html">Le Club</a>
+                    <a href="effectif.html">Effectif</a>
+                    <a href="actualites.html">Actualites</a>
+                    <a href="cfc.html">CFC</a>
+                </nav>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>3 chemin Saint Philippe, 06000 Nice</p>
+                <p>04 93 87 12 77</p>
+                <p>info@nicevolleyball.fr</p>
+            </div>
+        </div>
+        <p class="footer-copyright">&copy; 2025 Nice Volley Ball. Tous droits reserves.</p>
+    </footer>
+</body>
+</html>
